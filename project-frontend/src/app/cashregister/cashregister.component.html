@@ -1,0 +1,52 @@
+<div class="card">
+    <p-table [value]="CashRegisterArray" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Balance</th>
+                <th>Option</th>
+                
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cashregister>
+            <tr>
+                <td>{{ cashregister.name }}</td>
+                <td>{{ cashregister.balance }}</td>
+
+                <td>
+                    <p-button label="Edit" styleClass="p-button-success" [routerLink]="['/newcashregister/'+cashregister.id]"></p-button>
+                    <p-button (click)="confirm(cashregister)" icon="pi pi-times" label="Delete" styleClass="p-button-danger"></p-button>
+                </td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div class="card flex justify-content-center gap-2">
+        <p-toast></p-toast>
+        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    </div>
+
+</div>
+<div class="card">
+    <p-messages [(value)]="messages" [enableService]="false"></p-messages>
+</div>
+<ng-container *ngIf="visible" >
+    <form [formGroup]="registerForm" novalidate>
+        <div class="card flex flex-column md:flex-row gap-3">
+            <div class="p-inputgroup">
+                <input type="text"  [(ngModel)]="name" formControlName="name"  class="form-control" id="name" name="name" pInputText placeholder="Cash Register Name" />
+            </div>
+        
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">$</span>
+                <input type="text"  [(ngModel)]="balance" formControlName="balance"  class="form-control" id="balance" name="balance" type="text" pInputText placeholder="Balance" />
+                <span class="p-inputgroup-addon">.00</span>
+            </div>
+        
+            <p-button type="submit" [disabled]="!registerForm.valid" label="Update" styleClass="p-button-success" (click)="save(); reloadPage()"></p-button>
+            
+        </div>
+    </form>
+    
+</ng-container>

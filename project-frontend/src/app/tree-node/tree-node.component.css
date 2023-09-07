@@ -1,0 +1,27 @@
+.tree-node {
+    margin-bottom: 5px;
+  }
+  
+  .node-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .node-info:hover {
+    cursor: pointer;
+  }
+  
+  .toggle-icon {
+    margin-right: 5px;
+    font-size: 12px;
+    color: gray;
+  }
+  
+  .child-nodes {
+    margin-left: 20px;
+  }
+
+  .child-nodes:hover {
+    cursor: pointer;
+  }
+  

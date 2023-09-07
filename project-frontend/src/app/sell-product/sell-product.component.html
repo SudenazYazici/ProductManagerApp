@@ -1,0 +1,77 @@
+<form>
+    <div class="card flex justify-content-center">
+        <p-dropdown [options]="products" [(ngModel)]="selectedProduct" [ngModelOptions]="{ standalone: true }" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Product" (click)="checkProduct()">
+            <ng-template pTemplate="selectedProduct">
+                <div class="flex align-items-center gap-2" *ngIf="selectedProduct">
+                    <div>{{ selectedProduct.name }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-product pTemplate="product">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ product.name }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="card flex justify-content-center">
+        <p-dropdown [options]="cashRegisters" [(ngModel)]="selectedCashRegister" [ngModelOptions]="{ standalone: true }" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Cash Register" (click)="checkCashRegister()">
+            <ng-template pTemplate="selectedCashRegister">
+                <div class="flex align-items-center gap-2" *ngIf="selectedCashRegister">
+                    <div>{{ selectedCashRegister.name }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-cashRegister pTemplate="cashRegister">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ cashRegister.name }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="p-inputgroup">
+        <input type="text" [(ngModel)]="amount" [ngModelOptions]="{ standalone: true }"  class="form-control" id="amount" name="amount" pInputText placeholder="Amount" (click)="checkPurchase()" />
+    </div>
+
+    <p-button label="Sell" (click)="sell()"></p-button>
+</form>
+
+<div class="card">
+    <p-messages [(value)]="messages" [enableService]="false"></p-messages>
+</div>
+
+<div style="display: flex;">
+    <ng-container *ngIf="visibleProduct">
+        <p-card header="Product Information" [style]="{ width: '360px' }">
+            <div class="flex align-items-center gap-2" *ngIf="selectedProduct">
+                <div><b>Name:</b> {{ selectedProduct.name }}</div>
+                <div><b>Detail:</b> {{ selectedProduct.detail }}</div>
+                <div><b>Price:</b> {{ selectedProduct.price }}</div>
+                <div><b>Total Amount:</b> {{ selectedProduct.amount }}</div>
+                <div><b>Category:</b> {{ selectedProduct.productCategory != undefined ? selectedProduct.productCategory.name:"" }}</div>
+            </div>
+        </p-card>
+    </ng-container>
+    
+    <ng-container *ngIf="visibleCashRegister">
+        <p-card header="Cash Register Information" [style]="{ width: '360px' }">
+            <div class="flex align-items-center gap-2" *ngIf="selectedCashRegister">
+                <div><b>Name:</b> {{ selectedCashRegister.name }}</div>
+                <div><b>Total Balance:</b> {{ selectedCashRegister.balance }}</div>
+            </div>
+        </p-card>
+    </ng-container>
+
+    <ng-container *ngIf="amount>0 && selectedProduct && selectedCashRegister">
+        {{checkPurchase()}}
+        <p-card header="Sale Information" [style]="{ width: '360px' }">
+            <div class="flex align-items-center gap-2" *ngIf="selectedProduct">
+                <div><b>Product Amount After Sale:</b> {{ amountAfterSale }}</div>
+            </div>
+
+            <div class="flex align-items-center gap-2" *ngIf="selectedCashRegister">
+                <div><b>Cash Register Balance After Sale:</b> {{ balanceAfterSale }}</div>
+            </div>
+        </p-card>
+    </ng-container>
+</div>

@@ -1,0 +1,46 @@
+<div *ngIf="visibleButton">
+    <a routerLink="/newcategory"><p-button type="submit" label="New"></p-button></a>
+</div>
+
+
+<p-card header="Product Category Registration">
+    <div class="card flex flex-column md:flex-row gap-3">
+        <form [formGroup]="registerForm" novalidate>
+            <div class="p-inputgroup">
+                <input type="text" [(ngModel)]="productCategory.name" formControlName="name" class="form-control" id="name" name="name"
+                    pInputText placeholder="Category Name" />
+            </div>
+
+            <div class="card flex justify-content-center">
+                <p-dropdown [options]="productCategories" [(ngModel)]="categoryId"
+                    formControlName="productCat" [ngModelOptions]="{ standalone: true }" optionLabel="name" optionValue="id"
+                    [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Category">
+                    <ng-template pTemplate="selectedCategory">
+                        <div class="flex align-items-center gap-2" *ngIf="productCategory.productCategory">
+                            <div>{{ productCategory.productCategory.name }}</div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-productCategory pTemplate="productCategory">
+                        <div class="flex align-items-center gap-2">
+                            <div>{{ productCategory.name }}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <p-button type="submit" [disabled]="!registerForm.valid" label="Submit" (click)="save()"></p-button>
+        </form>
+    </div>
+</p-card>
+
+<div class="card">
+    <p-messages [(value)]="messages" [enableService]="false"></p-messages>
+</div>
+
+<p-card header="Product Categories" [style]="{ width: '360px' }">
+    <div class="tree">
+        <ng-container *ngFor="let root of rootCategories">
+            <app-tree-node [node]="root"></app-tree-node>
+        </ng-container>
+    </div>
+</p-card>

@@ -1,0 +1,13 @@
+<div class="tree-node" *ngIf="node" >
+    <div class="node-info" (click)="toggleChildren()">
+        <ng-container *ngIf="node.children && node.children.length > 0">
+            <span class="toggle-icon">▼</span>
+        </ng-container>
+        {{ node.name }}
+    </div>
+    <div class="child-nodes" *ngIf="nodeExpanded">
+        <ng-container *ngIf="node.children && node.children.length > 0">
+            <app-tree-node *ngFor="let child of node.children" [node]="child"></app-tree-node>
+        </ng-container>
+    </div>
+</div>
